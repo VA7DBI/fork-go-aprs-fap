@@ -129,5 +129,23 @@ func (p *Packet) parseMessage(opt *options) error {
 		msg.Text = msgBody
 	}
 
+	// Catch telemetry parameter messages (PARM, UNIT, EQNS, BITS)
+	if isTelemetryMessage(msg.Text) {
+		p.Type = PacketTypeTelemetryMessage
+	}
+
 	return nil
+}
+
+// isTelemetryMessage checks if a message body starts with a telemetry
+// parameter keyword followed by a dot (case-insensitive).
+func isTelemetryMessage(text string) bool {
+	if len(text) < 5 || text[4] != '.' {
+		return false
+	}
+	prefix := text[:4]
+	return strings.EqualFold(prefix, "PARM") ||
+		strings.EqualFold(prefix, "UNIT") ||
+		strings.EqualFold(prefix, "EQNS") ||
+		strings.EqualFold(prefix, "BITS")
 }

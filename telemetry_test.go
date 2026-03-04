@@ -255,3 +255,61 @@ func TestTelemetryInvalidTrailingDot(t *testing.T) {
 		t.Errorf("error = %v, want %v", err, ErrTlmInvalid)
 	}
 }
+
+// Tests for telemetry parameter messages (PARM, UNIT, EQNS, BITS)
+// Ported from perl-aprs-fap/t/53decode-tlm.t
+
+func TestTelemetryParameterMessage(t *testing.T) {
+	// From perl test: PARM message
+	p, err := Parse("SRCCALL>APRS::N0CALL-10:PARM.Vin,Rx1h,Dg1h,Eff1h,EffTo,O1,O2,O3,O4,I1,I2,I3,I4")
+	if err != nil {
+		t.Fatalf("failed to parse telemetry parameter message: %v", err)
+	}
+	if p.Type != PacketTypeTelemetryMessage {
+		t.Errorf("type = %q, want %q", p.Type, PacketTypeTelemetryMessage)
+	}
+	if p.Message == nil {
+		t.Fatal("no message data")
+	}
+	if p.Message.Destination != "N0CALL-10" {
+		t.Errorf("destination = %q, want %q", p.Message.Destination, "N0CALL-10")
+	}
+	if p.Message.Text != "PARM.Vin,Rx1h,Dg1h,Eff1h,EffTo,O1,O2,O3,O4,I1,I2,I3,I4" {
+		t.Errorf("text = %q, want PARM content", p.Message.Text)
+	}
+}
+
+func TestTelemetryParameterMessageTypes(t *testing.T) {
+	tests := []struct {
+		name string
+		body string
+	}{
+		{"PARM", "::N0CALL   :PARM.Vin,Rx1h"},
+		{"UNIT", "::N0CALL   :UNIT.Volt,Pkt/h"},
+		{"EQNS", "::N0CALL   :EQNS.0,0.075,0,0,1,0"},
+		{"BITS", "::N0CALL   :BITS.11111111,My station"},
+		{"parm lowercase", "::N0CALL   :parm.Vin,Rx1h"},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			p, err := Parse("SRCCALL>APRS" + tc.body)
+			if err != nil {
+				t.Fatalf("failed to parse: %v", err)
+			}
+			if p.Type != PacketTypeTelemetryMessage {
+				t.Errorf("type = %q, want %q", p.Type, PacketTypeTelemetryMessage)
+			}
+		})
+	}
+}
+
+func TestRegularMessageNotTelemetryMessage(t *testing.T) {
+	// A regular message should not be marked as telemetry-message
+	p, err := Parse("SRCCALL>APRS::N0CALL   :Hello world")
+	if err != nil {
+		t.Fatalf("failed to parse: %v", err)
+	}
+	if p.Type != PacketTypeMessage {
+		t.Errorf("type = %q, want %q", p.Type, PacketTypeMessage)
+	}
+}

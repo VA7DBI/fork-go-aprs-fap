@@ -31,8 +31,9 @@ const (
 	PacketTypeMessage      PacketType = "message"
 	PacketTypeWx           PacketType = "wx"
 	PacketTypeTelemetry    PacketType = "telemetry"
-	PacketTypeStatus       PacketType = "status"
-	PacketTypeCapabilities PacketType = "capabilities"
+	PacketTypeTelemetryMessage PacketType = "telemetry-message"
+	PacketTypeStatus           PacketType = "status"
+	PacketTypeCapabilities     PacketType = "capabilities"
 )
 
 // Format represents the position encoding format used in a packet.
