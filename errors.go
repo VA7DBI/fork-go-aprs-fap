@@ -45,9 +45,9 @@ var (
 	// Position errors
 	ErrPosAmbiguity  = &ParseError{Code: "loc_amb_inv"}
 	ErrPosShort      = &ParseError{Code: "pos_short"}
-	ErrPosInvalid    = &ParseError{Code: "pos_invalid"}
-	ErrPosLatInvalid = &ParseError{Code: "pos_lat_invalid"}
-	ErrPosLonInvalid = &ParseError{Code: "pos_lon_invalid"}
+	ErrPosInvalid    = &ParseError{Code: "pos_inv"}
+	ErrPosLatInvalid = &ParseError{Code: "pos_lat_inv"}
+	ErrPosLonInvalid = &ParseError{Code: "pos_lon_inv"}
 	ErrLocInvalid    = &ParseError{Code: "loc_inv"}
 	ErrLocLarge      = &ParseError{Code: "loc_large"}
 
@@ -56,7 +56,7 @@ var (
 
 	// Compressed position errors
 	ErrCompShort   = &ParseError{Code: "comp_short"}
-	ErrCompInvalid = &ParseError{Code: "comp_invalid"}
+	ErrCompInvalid = &ParseError{Code: "comp_inv"}
 
 	// Mic-E errors
 	ErrMiceShort        = &ParseError{Code: "mice_short"}
@@ -67,11 +67,11 @@ var (
 	ErrObjShort    = &ParseError{Code: "obj_short"}
 	ErrObjInvalid  = &ParseError{Code: "obj_inv"}
 	ErrItemShort   = &ParseError{Code: "item_short"}
-	ErrItemInvalid = &ParseError{Code: "item_invalid"}
+	ErrItemInvalid = &ParseError{Code: "item_inv"}
 
 	// Message errors
 	ErrMsgShort      = &ParseError{Code: "msg_short"}
-	ErrMsgInvalid    = &ParseError{Code: "msg_invalid"}
+	ErrMsgInvalid    = &ParseError{Code: "msg_inv"}
 	ErrMsgNoDst      = &ParseError{Code: "msg_no_dst"}
 	ErrMsgDstTooLong = &ParseError{Code: "msg_dst_long"}
 	ErrMsgIDInvalid  = &ParseError{Code: "msg_id_inv"}
@@ -91,7 +91,7 @@ var (
 	ErrTimestampInvalid = &ParseError{Code: "timestamp_inv"}
 
 	// Weather errors
-	ErrWxInvalid = &ParseError{Code: "wx_invalid"}
+	ErrWxInvalid = &ParseError{Code: "wx_inv"}
 
 	// Telemetry errors
 	ErrTlmInvalid = &ParseError{Code: "tlm_inv"}
